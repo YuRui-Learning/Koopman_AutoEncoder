@@ -24,14 +24,13 @@ Coder = AutoEncoder.AutoEncoder()
 print(Coder)
 
 optimizer = torch.optim.Adam(Coder.parameters(),lr=LR)
-loss_func = loss.loss_func()
 
 for epoch in range(EPOCH):
     for step in range(len(Train_Data)):
-        b_x = torch.from_numpy(Train_Data[step]).to(torch.float32)
-        b_y = torch.from_numpy(Train_Output[step]).to(torch.float32)
-        encoded , decoded = Coder(b_x)
-        loss = loss_func(decoded,b_y)
+        X_state = torch.from_numpy(Train_Data[step]).to(torch.float32)
+        X_state_1 = torch.from_numpy(Train_Output[step]).to(torch.float32)
+        encoded , decoded = Coder(X_state)
+        loss = loss.loss_func(decoded,X_state_1)
 
         optimizer.zero_grad()
         loss.backward()
