@@ -68,27 +68,27 @@ print(Coder)
 optimizer = torch.optim.Adam(Coder.parameters(),lr=LR)
 loss_func = nn.MSELoss()
 
-# for epoch in range(EPOCH):
-#     for step,(x,y) in enumerate(loader):
-#         b_x = x.view(-1,28*28)
-#         b_y = x.view(-1,28*28)
-#         b_label = y
-#         encoded , decoded = Coder(b_x)
-#         loss = loss_func(decoded,b_y)
-#
-#         optimizer.zero_grad()
-#         loss.backward()
-#         optimizer.step()
-#
-#         if step%5 == 0:
-#             print('Epoch :', epoch,'|','train_loss:%.4f'%loss.data)
-#
-# torch.save(Coder,'AutoEncoder.pkl')
-# print('________________________________________')
-# print('finish training')
-#
-# endtime = time.time()
-# print('训练耗时：',(endtime - starttime))
+for epoch in range(EPOCH):
+    for step,(x,y) in enumerate(loader):
+        b_x = x.view(-1,28*28)
+        b_y = x.view(-1,28*28)
+        b_label = y
+        encoded , decoded = Coder(b_x)
+        loss = loss_func(decoded,b_y)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if step%5 == 0:
+            print('Epoch :', epoch,'|','train_loss:%.4f'%loss.data)
+
+torch.save(Coder,'AutoEncoder.pkl')
+print('________________________________________')
+print('finish training')
+
+endtime = time.time()
+print('训练耗时：',(endtime - starttime))
 
 
 Coder = AutoEncoder()

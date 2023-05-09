@@ -3,7 +3,7 @@ import torch.nn as nn
 from model import AutoEncoder
 from data import dataloader
 from data import dataprocess
-from utils import loss
+from utils import lossfunc
 
 import time
 starttime = time.time()
@@ -30,7 +30,7 @@ for epoch in range(EPOCH):
         X_state = torch.from_numpy(Train_Data[step]).to(torch.float32)
         X_state_1 = torch.from_numpy(Train_Output[step]).to(torch.float32)
         encoded , decoded = Coder(X_state)
-        loss = loss.loss_func(decoded,X_state_1)
+        loss = lossfunc.loss_compute( encoded , decoded , X_state, X_state_1)
 
         optimizer.zero_grad()
         loss.backward()

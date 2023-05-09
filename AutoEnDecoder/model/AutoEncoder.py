@@ -38,7 +38,7 @@ class AutoEncoder(nn.Module):
 
     def forward(self, x):
         U = x[::2] # tensor 10, 并且该矩阵是一个单位向量乘以一个常数
-        encoded = self.encoder(x)
+        encoded = self.encoder(x) # 20维度向量
         flpha_e =  torch.cat((x , encoded),0) #tensor拼接
         U_Convert = torch.mm(U.reshape(1,-1),self.matrix_B).reshape(10,-1) # tensor内积
         flpha_Convert = torch.mm(flpha_e.reshape(1,-1) , self.matrix_A).reshape(40,1) # tensor内积
