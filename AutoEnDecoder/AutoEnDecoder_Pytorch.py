@@ -29,8 +29,8 @@ for epoch in range(EPOCH):
     for step in range(len(Train_Data)):
         X_state = torch.from_numpy(Train_Data[step]).to(torch.float32)
         X_state_1 = torch.from_numpy(Train_Output[step]).to(torch.float32)
-        encoded , decoded = Coder(X_state)
-        loss = lossfunc.loss_compute( encoded , decoded , X_state, X_state_1)
+        encoded , decoded ,matrixloss = Coder(X_state)
+        loss = lossfunc.loss_compute( encoded , decoded , X_state, X_state_1 , matrixloss)
 
         optimizer.zero_grad()
         loss.backward()
@@ -53,6 +53,6 @@ Coder = torch.load('AutoEncoder.pkl')
 
 for i in range(10):
     view_data = torch.from_numpy(Test_Data[i]).to(torch.float32)
-    _ , encoded_data = Coder(view_data)
-    print(encoded_data)
+    _ , decoded_data ,_ = Coder(view_data)
+    print(decoded_data)
     print(Test_Output[i])

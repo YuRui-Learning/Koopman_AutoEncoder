@@ -42,12 +42,15 @@ class AutoEncoder(nn.Module):
         flpha_e =  torch.cat((x , encoded),0) #tensor拼接
         U_Convert = torch.mm(U.reshape(1,-1),self.matrix_B).reshape(10,-1) # tensor内积
         flpha_Convert = torch.mm(flpha_e.reshape(1,-1) , self.matrix_A).reshape(40,1) # tensor内积
-        Input = torch.cat((flpha_Convert,U_Convert),0)
-        Input = Input.view(-1) # 压缩为1维向量
-        decoded = self.decoder(Input)
-        print(self.matrix_A)
-        print(self.matrix_B)
-        return encoded, decoded
+
+        Encoder_Input = torch.cat((flpha_Convert,U_Convert),0)
+        Base_Value = torch.cat((flpha_e , U),0) # 因为要计算一下A，B矩阵的影响，所以需要在前向传播时候，记录一下。
+        Matrix_Loss = torch.sqrt(torch.mean(torch.pow((Base_Value - Encoder_Input.view(-1)), 2)))
+        Encoder_Input = Encoder_Input.view(-1) # 压缩为1维向量
+        decoded = self.decoder(Encoder_Input)
+        # print('matrix_A',self.matrix_A)
+        # print('matrix_B',self.matrix_B)
+        return encoded, decoded , Matrix_Loss
 
 
 
