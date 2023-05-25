@@ -30,7 +30,7 @@ for epoch in range(EPOCH):
         X_state = torch.from_numpy(Train_Data[step]).to(torch.float32)
         X_state_1 = torch.from_numpy(Train_Output[step]).to(torch.float32)
         encoded , decoded ,matrixloss = Coder(X_state)
-        loss = lossfunc.loss_compute( encoded , decoded , X_state, X_state_1 , matrixloss)
+        loss = lossfunc.loss_compute( decoded , X_state, X_state_1 , matrixloss)
 
         optimizer.zero_grad()
         loss.backward()
