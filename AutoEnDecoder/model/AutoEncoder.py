@@ -15,23 +15,17 @@ class AutoEncoder(nn.Module):
             nn.Tanh(),
             nn.Linear(32, 64),
             nn.Tanh(),
-            nn.Linear(64, 128),
+            nn.Linear(64, 20),
+
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(50, 128),
             nn.Tanh(),
             nn.Linear(128, 64),
             nn.Tanh(),
             nn.Linear(64, 32),
             nn.Tanh(),
-            nn.Linear(32, 20),
-
-        )
-        self.decoder = nn.Sequential(
-            nn.Linear(50, 64),
-            nn.Tanh(),
-            nn.Linear(64, 32),
-            nn.Tanh(),
-            nn.Linear(32, 16),
-            nn.Tanh(),
-            nn.Linear(16, 10),
+            nn.Linear(32, 10),
             nn.Sigmoid()
 
         )
@@ -39,7 +33,7 @@ class AutoEncoder(nn.Module):
     def forward(self, x):
         U = x[::2] # tensor 10, 并且该矩阵是一个单位向量乘以一个常数
         encoded = self.encoder(x) # 20维度向量
-        flpha_e =  torch.cat((x , encoded),0) #tensor拼接
+        flpha_e =  torch.cat((x , encoded),0) #tensor拼接 40维
         U_Convert = torch.mm(U.reshape(1,-1),self.matrix_B).reshape(10,-1) # tensor内积
         flpha_Convert = torch.mm(flpha_e.reshape(1,-1) , self.matrix_A).reshape(40,1) # tensor内积
 
@@ -50,7 +44,7 @@ class AutoEncoder(nn.Module):
         decoded = self.decoder(Encoder_Input)
         # print('matrix_A',self.matrix_A)
         # print('matrix_B',self.matrix_B)
-        return encoded, decoded , Matrix_Loss
+        return encoded, decoded , Matrix_Loss,self.matrix_A,self.matrix_B
 
 
 

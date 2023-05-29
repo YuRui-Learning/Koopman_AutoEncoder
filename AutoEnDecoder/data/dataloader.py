@@ -16,8 +16,8 @@ def Get_data(koopman_U = r'data/koopman_U.csv',koopman_Y = r'data/koopman_Y.csv'
     Test_Dict = {'State_Y':[],'State_Init':[],'Input_U':[]}
     # koopman_U = r'data/koopman_U.csv'
     # koopman_Y = r'data/koopman_Y.csv'
-    df_U = pd.read_csv(koopman_U,header=None)
-    df_Y = pd.read_csv(koopman_Y,header=None)
+    df_U = pd.read_csv(koopman_U,header=None).T
+    df_Y = pd.read_csv(koopman_Y,header=None).T
     init_num = np.array(df_Y.loc[0])
     State_Y = np.array(df_Y.drop(0)).T
     Input_U = np.array(df_U).T
